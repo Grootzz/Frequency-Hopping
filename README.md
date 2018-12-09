@@ -32,8 +32,7 @@ MSK基带调制器
 `.code/FHmodulator.m `   
 跳频调制器
 
-`.code/FHdemodulator.m`  
-跳频解跳器
+`.code/FHdemodulator.m`  :跳频解跳器
 
 **工具函数（用于频域分析）**
 
