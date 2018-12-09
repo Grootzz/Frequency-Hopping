@@ -37,7 +37,7 @@ MSK基带调制器
 
 **工具函数（用于频域分析）**
 
-`.code/fftshow.m` 
+`.code/fftshow.m`   
 低通信号fft分析（功率谱）
 
 `.code/fftTool.m`  
