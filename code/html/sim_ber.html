@@ -1,0 +1,220 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>sim_ber</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-12-09"><meta name="DC.source" content="sim_ber.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">&#31616;&#26131;&#36339;&#39057;&#31995;&#32479;&#35823;&#27604;&#29305;&#29575;&#32479;&#35745;&#20998;&#26512;</a></li><li><a href="#2">&#31995;&#32479;&#21442;&#25968;&#35774;&#32622;</a></li><li><a href="#3">&#20256;&#36755;&#20449;&#24687;&#21442;&#25968;&#35774;&#32622;</a></li><li><a href="#4">&#26500;&#36896;&#21457;&#36865;&#24207;&#21015;</a></li><li><a href="#5">&#35843;&#21046;</a></li><li><a href="#6">&#35823;&#27604;&#29305;&#20998;&#26512;&#21442;&#25968;&#35774;&#32622;</a></li><li><a href="#7">&#35823;bit&#29575;&#20998;&#26512;&#65288;&#36890;&#36807;&#22312;&#19981;&#21516;&#30340;&#20449;&#22122;&#27604;&#19979;&#20256;&#36755;&#22810;&#20010;&#24103;&#20570;&#32479;&#35745;&#20998;&#26512;&#65292;&#21487;&#20197;&#36890;&#36807;&#22686;&#21152;&#20256;&#36755;&#24103;&#25968;&#30446;&#33719;&#21462;&#26356;&#21152;&#31934;&#30830;&#30340;&#35823;&#27604;&#29305;&#29575;&#65307;&#26356;&#25913;&#20449;&#22122;&#27604;&#33719;&#21462;&#19981;&#21516;&#20449;&#22122;&#27604;&#19979;&#30340;&#24615;&#33021;&#65289;</a></li><li><a href="#8">&#35823;bit&#29575;&#26354;&#32447;</a></li></ul></div><h2 id="1">&#31616;&#26131;&#36339;&#39057;&#31995;&#32479;&#35823;&#27604;&#29305;&#29575;&#32479;&#35745;&#20998;&#26512;</h2><p>&#35843;&#21046;--&gt;&#36339;&#39057;--&gt;&#20449;&#36947;--&gt;&#35299;&#36339;--&gt;&#35299;&#35843;--&gt;&#35823;&#30721;&#20998;&#26512;</p><pre class="codeinput">clc;clear;close <span class="string">all</span>;
+</pre><h2 id="2">&#31995;&#32479;&#21442;&#25968;&#35774;&#32622;</h2><pre class="codeinput">Rb = 5e4;                       <span class="comment">% &#36895;&#29575;&#65306;50Kb/s</span>
+Tb = 1 / Rb;                    <span class="comment">% bit&#38388;&#38548;</span>
+hopping = 1000;                 <span class="comment">% &#36339;&#39057;&#36895;&#29575;</span>
+bitsPerHop = Rb / hopping;      <span class="comment">% &#27599;&#36339;bit&#25968;&#30446;&#65288;&#24517;&#39035;&#20026;&#25972;&#25968;&#65289;</span>
+samp = 20;                     <span class="comment">% &#36807;&#37319;&#26679;&#20493;&#25968;</span>
+fs = samp*Rb;                   <span class="comment">% &#37319;&#26679;&#29575;</span>
+BW = 5e6;                       <span class="comment">% &#36339;&#39057;&#24102;&#23485;</span>
+freqNum = floor(BW / (Rb*4));   <span class="comment">% &#36339;&#39057;&#39057;&#28857;&#25968;&#30446;</span>
+freqInterval = BW / freqNum;    <span class="comment">% &#39057;&#28857;&#38388;&#38548;</span>
+freqSeq = ([0:freqNum-1] - floor(freqNum/2)) * freqInterval;   <span class="comment">% &#36339;&#39057;&#39057;&#28857;&#24207;&#21015;</span>
+carrier = 3e6;                  <span class="comment">% &#36339;&#39057;&#20013;&#24515;&#39057;&#29575;</span>
+carrierSeq = carrier + freqSeq; <span class="comment">% &#21457;&#36865;&#26102;&#36339;&#39057;&#39057;&#28857;&#24207;&#21015;</span>
+</pre><h2 id="3">&#20256;&#36755;&#20449;&#24687;&#21442;&#25968;&#35774;&#32622;</h2><pre class="codeinput">SYNC_BIT_NUM = 40;                                  <span class="comment">% &#21516;&#27493;bit&#25968;&#30446;</span>
+MSG_BIT_NUM = 1024;                                 <span class="comment">% &#28040;&#24687;bit&#25968;&#30446;</span>
+TX_BIT_NUM = SYNC_BIT_NUM + MSG_BIT_NUM;            <span class="comment">% &#38656;&#35201;&#21457;&#36865;&#30340;bit&#25968;&#30446;</span>
+
+HOP_NUM = ceil(TX_BIT_NUM / bitsPerHop);            <span class="comment">% &#21457;&#36865;&#25152;&#26377;&#30340;bit&#38656;&#35201;&#30340;&#36339;&#39057;&#28857;&#25968;</span>
+<span class="comment">%&#65288;&#30001;&#20110;&#24635;&#30340;&#21457;&#36865;bit&#25968;&#30446;&#19981;&#19968;&#23450;&#26159;&#27599;&#36339;bit&#25968;&#30446;bitsPerHop&#30340;&#25972;&#25968;&#20493;&#65292;&#25152;&#20197;&#65292;&#26500;&#36896;&#20026;bitsPerHop&#30340;&#25972;&#25968;&#20493;&#65292;&#22312;&#35299;&#35843;&#21518;&#21435;&#38500;&#22810;&#20313;bit&#21363;&#21487;&#65289;</span>
+EXCEED_BIT = HOP_NUM * bitsPerHop - TX_BIT_NUM;     <span class="comment">% &#22810;&#20313;&#30340;bit</span>
+</pre><h2 id="4">&#26500;&#36896;&#21457;&#36865;&#24207;&#21015;</h2><pre class="codeinput">SYNC = randi([0 ,1] , 1 , SYNC_BIT_NUM);                        <span class="comment">% &#21516;&#27493;&#20108;&#36827;&#21046;&#24207;&#21015;&#65288;&#29992;&#19968;&#20018;&#38543;&#26426;&#24207;&#21015;&#20195;&#26367;&#65289;</span>
+MSG = randi([0,1] ,1 ,HOP_NUM*bitsPerHop - SYNC_BIT_NUM);       <span class="comment">% &#28040;&#24687;&#23383;&#31526;&#21495;</span>
+TX_BIT = [SYNC , MSG];                                          <span class="comment">% &#26500;&#36896;&#25972;&#20010;&#21457;&#36865;bit&#24207;&#21015;</span>
+TX_BIT_MAT = reshape(TX_BIT , bitsPerHop , HOP_NUM);            <span class="comment">% &#23558;&#24453;&#21457;&#36865;&#24207;&#21015;&#36716;&#25104;&#19968;&#20010;&#30697;&#38453;&#65292;&#27599;&#19968;&#34892;&#26159;1&#20010;&#36339;&#39057;&#39057;&#28857;&#19979;&#38656;&#35201;&#21457;&#36865;&#30340;bit&#25968;&#30446;</span>
+TX_BIT_MAT = TX_BIT_MAT';                                       <span class="comment">% &#34892;&#65306;&#36339;&#25968;&#65292;&#21015;: &#27599;&#36339;&#23545;&#24212;&#30340;bit&#24207;&#21015;</span>
+</pre><h2 id="5">&#35843;&#21046;</h2><pre class="codeinput">[biNRZ , msgModMatrix]  = MSKmodulator(samp, TX_BIT_MAT);            <span class="comment">% &#22797;&#22522;&#24102;&#35843;&#21046;&#30697;&#38453;</span>
+</pre><h2 id="6">&#35823;&#27604;&#29305;&#20998;&#26512;&#21442;&#25968;&#35774;&#32622;</h2><pre class="codeinput">frameNum = 1000;                  <span class="comment">% &#20256;&#36755;&#24103;&#25968;&#30446;</span>
+snr = 0:10;                     <span class="comment">% &#20449;&#22122;&#27604;</span>
+ber = zeros(1 , length(snr));   <span class="comment">% &#35823;bit&#29575;</span>
+</pre><h2 id="7">&#35823;bit&#29575;&#20998;&#26512;&#65288;&#36890;&#36807;&#22312;&#19981;&#21516;&#30340;&#20449;&#22122;&#27604;&#19979;&#20256;&#36755;&#22810;&#20010;&#24103;&#20570;&#32479;&#35745;&#20998;&#26512;&#65292;&#21487;&#20197;&#36890;&#36807;&#22686;&#21152;&#20256;&#36755;&#24103;&#25968;&#30446;&#33719;&#21462;&#26356;&#21152;&#31934;&#30830;&#30340;&#35823;&#27604;&#29305;&#29575;&#65307;&#26356;&#25913;&#20449;&#22122;&#27604;&#33719;&#21462;&#19981;&#21516;&#20449;&#22122;&#27604;&#19979;&#30340;&#24615;&#33021;&#65289;</h2><pre class="codeinput"><span class="keyword">for</span> ii = 1 : length(snr)
+    sumErrBit = 0;
+    <span class="keyword">for</span> jj = 1 : frameNum
+        <span class="comment">% &#36339;&#39057;</span>
+        fhIndex = randi([1 , freqNum] , 1 , HOP_NUM);                           <span class="comment">% &#26681;&#25454;&#36339;&#39057;&#28857;&#25968;&#29983;&#25104;&#38543;&#26426;&#39057;&#28857;&#24207;&#21015;&#32034;&#24341;</span>
+        txFHtable = carrierSeq(fhIndex);                                        <span class="comment">% &#26681;&#25454;&#38543;&#26426;&#39057;&#28857;&#24207;&#21015;&#32034;&#24341;&#29983;&#25104;&#36339;&#39057;&#39057;&#28857;&#65288;&#25910;&#21457;&#39057;&#28857;&#20445;&#25345;&#19968;&#33268;&#25165;&#21487;&#20197;&#35299;&#36339;&#65289;</span>
+        txFHmodulatedMat = FHmodulator(samp , msgModMatrix , txFHtable , fs);	<span class="comment">% &#36339;&#39057;&#21518;&#30340;&#20449;&#21495;&#65288;&#21253;&#25324;&#31895;&#21516;&#27493;&#19982;&#31934;&#21516;&#27493;&#65289;</span>
+
+        <span class="comment">% &#20449;&#36947;</span>
+<span class="comment">%         snr = 10;</span>
+        txFHmodulated = reshape(txFHmodulatedMat' , 1 , numel(txFHmodulatedMat));       <span class="comment">% &#23558;&#30697;&#38453;&#24418;&#24335;&#30340;&#20449;&#21495;&#36716;&#21270;&#20026;&#23454;&#38469;&#30340;1&#32500;&#20449;&#21495;</span>
+        rcvNoisy = awgn(txFHmodulated , snr(ii));                                       <span class="comment">% &#28155;&#21152;&#22122;&#22768;</span>
+        rcvNoisyMat = reshape(rcvNoisy , numel(txFHmodulatedMat) / HOP_NUM , HOP_NUM);  <span class="comment">% &#20026;&#20102;&#20415;&#20110;&#21518;&#38754;&#30340;&#35299;&#36339;/&#35299;&#36339;&#25805;&#20316;, &#23558;1&#32500;&#20449;&#21495;&#36824;&#21407;&#20026;&#30697;&#38453;&#24418;&#24335;</span>
+        rcvNoisyMat = rcvNoisyMat';                                                     <span class="comment">% &#34892;&#65306;&#36339;&#25968;&#65292;&#21015;: &#27599;&#36339;&#23545;&#24212;&#30340;&#24102;&#22122;&#22768;&#30340;&#35843;&#21046;&#20449;&#21495;</span>
+
+        <span class="comment">% &#35299;&#36339;</span>
+        rcvBBmat = FHdemodulator(samp , rcvNoisyMat , txFHtable , fs);
+
+        <span class="comment">% &#24046;&#20998;&#35299;&#35843;</span>
+        rcvBB1dim = reshape(rcvBBmat' , 1 , numel(rcvBBmat));                   <span class="comment">% &#36824;&#21407;&#20449;&#21495;&#20026;&#36830;&#32493;&#24418;&#24335;</span>
+        rcvBBsamp = reshape(rcvBB1dim , samp , numel(rcvBB1dim)/samp);          <span class="comment">% &#36716;&#25442;&#25104;&#27599;samp&#19968;&#20010;&#21333;&#20803;(&#21363;&#20197;bit&#20026;&#37319;&#26679;&#21333;&#20803;)</span>
+        dmdBit = imag(conj(rcvBBsamp(samp,:)) .* rcvBBsamp(1,:)) &gt;0;            <span class="comment">% &#24046;&#20998;&#35299;&#35843;</span>
+        dmdBit = dmdBit(1:end-EXCEED_BIT);                                      <span class="comment">% &#26681;&#25454;&#20887;&#20313;bit&#25968;&#30446;&#21435;&#38500;&#22810;&#20313;bit</span>
+        orignalBit = TX_BIT(1:end-EXCEED_BIT);                                  <span class="comment">% &#26681;&#25454;&#20887;&#20313;bit&#25968;&#30446;&#21435;&#38500;&#21457;&#36865;&#24207;&#21015;&#20013;&#22810;&#20313;&#30340;bit</span>
+
+        <span class="comment">% &#35745;&#31639;&#35823;bit&#25968;(&#21253;&#25324;&#21516;&#27493;&#24207;&#21015;&#21644;&#28040;&#24687;&#24207;&#21015;&#65292;&#19981;&#21253;&#25324;&#20887;&#20313;&#24207;&#21015;)</span>
+        errBitNum = sum(orignalBit~=dmdBit);
+        sumErrBit = sumErrBit + errBitNum;
+
+<span class="comment">%         [ii jj]</span>
+    <span class="keyword">end</span>
+    <span class="comment">% &#35745;&#31639;&#35823;bit&#29575;</span>
+    ber(ii) = sumErrBit / (frameNum*TX_BIT_NUM);
+<span class="keyword">end</span>
+</pre><h2 id="8">&#35823;bit&#29575;&#26354;&#32447;</h2><pre class="codeinput">semilogy(snr  , ber); xlabel(<span class="string">'SNR/dB'</span>)  ; ylabel(<span class="string">'&#35823;&#30721;&#29575;'</span>); grid <span class="string">on</span> ;title([<span class="string">'&#24635;&#20256;&#36755;&#24103;&#25968;: '</span> , num2str(frameNum)]);
+</pre><img vspace="5" hspace="5" src="sim_ber_01.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% 简易跳频系统误比特率统计分析
+% 调制REPLACE_WITH_DASH_DASH>跳频REPLACE_WITH_DASH_DASH>信道REPLACE_WITH_DASH_DASH>解跳REPLACE_WITH_DASH_DASH>解调REPLACE_WITH_DASH_DASH>误码分析
+
+clc;clear;close all;
+
+%% 系统参数设置
+Rb = 5e4;                       % 速率：50Kb/s
+Tb = 1 / Rb;                    % bit间隔
+hopping = 1000;                 % 跳频速率
+bitsPerHop = Rb / hopping;      % 每跳bit数目（必须为整数）
+samp = 20;                     % 过采样倍数
+fs = samp*Rb;                   % 采样率
+BW = 5e6;                       % 跳频带宽
+freqNum = floor(BW / (Rb*4));   % 跳频频点数目
+freqInterval = BW / freqNum;    % 频点间隔
+freqSeq = ([0:freqNum-1] - floor(freqNum/2)) * freqInterval;   % 跳频频点序列
+carrier = 3e6;                  % 跳频中心频率
+carrierSeq = carrier + freqSeq; % 发送时跳频频点序列
+
+%% 传输信息参数设置
+SYNC_BIT_NUM = 40;                                  % 同步bit数目
+MSG_BIT_NUM = 1024;                                 % 消息bit数目
+TX_BIT_NUM = SYNC_BIT_NUM + MSG_BIT_NUM;            % 需要发送的bit数目
+
+HOP_NUM = ceil(TX_BIT_NUM / bitsPerHop);            % 发送所有的bit需要的跳频点数
+%（由于总的发送bit数目不一定是每跳bit数目bitsPerHop的整数倍，所以，构造为bitsPerHop的整数倍，在解调后去除多余bit即可）
+EXCEED_BIT = HOP_NUM * bitsPerHop - TX_BIT_NUM;     % 多余的bit
+
+%% 构造发送序列
+SYNC = randi([0 ,1] , 1 , SYNC_BIT_NUM);                        % 同步二进制序列（用一串随机序列代替）
+MSG = randi([0,1] ,1 ,HOP_NUM*bitsPerHop - SYNC_BIT_NUM);       % 消息字符号
+TX_BIT = [SYNC , MSG];                                          % 构造整个发送bit序列
+TX_BIT_MAT = reshape(TX_BIT , bitsPerHop , HOP_NUM);            % 将待发送序列转成一个矩阵，每一行是1个跳频频点下需要发送的bit数目
+TX_BIT_MAT = TX_BIT_MAT';                                       % 行：跳数，列: 每跳对应的bit序列
+
+%% 调制
+[biNRZ , msgModMatrix]  = MSKmodulator(samp, TX_BIT_MAT);            % 复基带调制矩阵
+
+%% 误比特分析参数设置
+frameNum = 1000;                  % 传输帧数目
+snr = 0:10;                     % 信噪比
+ber = zeros(1 , length(snr));   % 误bit率
+
+%% 误bit率分析（通过在不同的信噪比下传输多个帧做统计分析，可以通过增加传输帧数目获取更加精确的误比特率；更改信噪比获取不同信噪比下的性能）
+for ii = 1 : length(snr)
+    sumErrBit = 0;
+    for jj = 1 : frameNum
+        % 跳频
+        fhIndex = randi([1 , freqNum] , 1 , HOP_NUM);                           % 根据跳频点数生成随机频点序列索引
+        txFHtable = carrierSeq(fhIndex);                                        % 根据随机频点序列索引生成跳频频点（收发频点保持一致才可以解跳）
+        txFHmodulatedMat = FHmodulator(samp , msgModMatrix , txFHtable , fs);	% 跳频后的信号（包括粗同步与精同步）
+        
+        % 信道
+%         snr = 10;
+        txFHmodulated = reshape(txFHmodulatedMat' , 1 , numel(txFHmodulatedMat));       % 将矩阵形式的信号转化为实际的1维信号
+        rcvNoisy = awgn(txFHmodulated , snr(ii));                                       % 添加噪声
+        rcvNoisyMat = reshape(rcvNoisy , numel(txFHmodulatedMat) / HOP_NUM , HOP_NUM);  % 为了便于后面的解跳/解跳操作, 将1维信号还原为矩阵形式
+        rcvNoisyMat = rcvNoisyMat';                                                     % 行：跳数，列: 每跳对应的带噪声的调制信号
+        
+        % 解跳
+        rcvBBmat = FHdemodulator(samp , rcvNoisyMat , txFHtable , fs);
+        
+        % 差分解调
+        rcvBB1dim = reshape(rcvBBmat' , 1 , numel(rcvBBmat));                   % 还原信号为连续形式
+        rcvBBsamp = reshape(rcvBB1dim , samp , numel(rcvBB1dim)/samp);          % 转换成每samp一个单元(即以bit为采样单元)
+        dmdBit = imag(conj(rcvBBsamp(samp,:)) .* rcvBBsamp(1,:)) >0;            % 差分解调
+        dmdBit = dmdBit(1:end-EXCEED_BIT);                                      % 根据冗余bit数目去除多余bit
+        orignalBit = TX_BIT(1:end-EXCEED_BIT);                                  % 根据冗余bit数目去除发送序列中多余的bit
+        
+        % 计算误bit数(包括同步序列和消息序列，不包括冗余序列)
+        errBitNum = sum(orignalBit~=dmdBit);
+        sumErrBit = sumErrBit + errBitNum;
+        
+%         [ii jj]
+    end 
+    % 计算误bit率
+    ber(ii) = sumErrBit / (frameNum*TX_BIT_NUM);
+end
+%% 误bit率曲线
+semilogy(snr  , ber); xlabel('SNR/dB')  ; ylabel('误码率'); grid on ;title(['总传输帧数: ' , num2str(frameNum)]);
+
+
+
+
+##### SOURCE END #####
+--></body></html>
