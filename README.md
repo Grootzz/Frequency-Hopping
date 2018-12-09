@@ -29,7 +29,7 @@ MSK基带调制器
 `.code/phaseTraceGenerator.m`   
 `CPM`信号生成器
 
-`.code/FHmodulator.m ` 
+`.code/FHmodulator.m `   
 跳频调制器
 
 `.code/FHdemodulator.m`  
