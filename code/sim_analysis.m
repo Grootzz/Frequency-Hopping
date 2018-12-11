@@ -42,7 +42,7 @@ txFHtable = carrierSeq(fhIndex);                                        % 根据随
 txFHmodulatedMat = FHmodulator(samp , msgModMatrix , txFHtable , fs);	% 跳频后的信号（包括粗同步与精同步）
 
 %% 信道
-snr = 1;
+snr = -10;
 txFHmodulated = reshape(txFHmodulatedMat' , 1 , numel(txFHmodulatedMat));       % 将矩阵形式的信号转化为实际的1维信号
 rcvNoisy = awgn(txFHmodulated , snr);                                           % 添加噪声
 rcvNoisyMat = reshape(rcvNoisy , numel(txFHmodulatedMat) / HOP_NUM , HOP_NUM);  % 为了便于后面的解跳/解跳操作, 将1维信号还原为矩阵形式

@@ -14,7 +14,11 @@ tMat = reshape(t , sampsPerHop , hopNum);
 tMat = tMat';
 
 % 解跳
-fhMat = exp(1j * 2*pi * -fhTable' .* tMat) ;        % 跳频频率
+fhTableMat = zeros(hopNum , sampsPerHop);
+for ii = 1:hopNum
+    fhTableMat(ii , :) = -fhTable(ii);
+end
+fhMat = exp(1j * 2*pi * fhTableMat .* tMat) ;        % 跳频频率
 rcvBBmat = fhMat .* rcvMat;                         % 解跳
 
 end

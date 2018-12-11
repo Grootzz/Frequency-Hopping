@@ -7,18 +7,18 @@ function [msgFHmodulatedMat] = FHmodulator(samp , msgModulatedMat , fhTable , fs
 % fs@param, 采样率
 % msgFHmodulatedMat@retval, 跳频后的复信号
 
-
 [hopNum , sampsPerHop] = size(msgModulatedMat);
 % 构造时间序列
 t = [1:numel(msgModulatedMat)] / fs;
 tMat = reshape(t , sampsPerHop , hopNum);
 tMat = tMat';
 
-% tMat = ones(hopNum , sampsPerHop) .* (1 : 1 : sampsPerHop) / samp;
-
 % 跳频
-fhTable = fhTable';
-fhMat = exp(1j * 2*pi *  fhTable .* tMat) ;     % 跳频频率
+fhTableMat = zeros(hopNum , sampsPerHop);
+for ii = 1:hopNum
+    fhTableMat(ii , :) = fhTable(ii);
+end
+fhMat = exp(1j * 2*pi *  fhTableMat .* tMat) ;     % 跳频频率
 msgFHmodulatedMat = fhMat .* msgModulatedMat;   % 跳频
 
 end

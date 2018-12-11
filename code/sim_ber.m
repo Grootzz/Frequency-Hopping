@@ -18,8 +18,9 @@ carrier = 3e6;                  % 跳频中心频率
 carrierSeq = carrier + freqSeq; % 发送时跳频频点序列
 
 %% 传输信息参数设置
-SYNC_BIT_NUM = 40;                                  % 同步bit数目
-MSG_BIT_NUM = 1024;                                 % 消息bit数目
+SYNC_BIT_NUM = 50;                                  % 同步bit数目
+PACKET_NUM = 3;                                     % 每一帧的包数目
+MSG_BIT_NUM = 1024*PACKET_NUM;                      % 消息bit数目
 TX_BIT_NUM = SYNC_BIT_NUM + MSG_BIT_NUM;            % 需要发送的bit数目
 
 HOP_NUM = ceil(TX_BIT_NUM / bitsPerHop);            % 发送所有的bit需要的跳频点数
@@ -38,20 +39,21 @@ TX_BIT_MAT = TX_BIT_MAT';                                       % 行：跳数，列: 
 
 %% 误比特分析参数设置
 frameNum = 1000;                  % 传输帧数目
-snr = 0:10;                     % 信噪比
+snr = 0:18;                     % 信噪比
 ber = zeros(1 , length(snr));   % 误bit率
+berPacket = zeros(1 , length(snr));   % 误包率
 
 %% 误bit率分析（通过在不同的信噪比下传输多个帧做统计分析，可以通过增加传输帧数目获取更加精确的误比特率；更改信噪比获取不同信噪比下的性能）
 for ii = 1 : length(snr)
     sumErrBit = 0;
+    sumErrPacket = 0;
     for jj = 1 : frameNum
         % 跳频
         fhIndex = randi([1 , freqNum] , 1 , HOP_NUM);                           % 根据跳频点数生成随机频点序列索引
         txFHtable = carrierSeq(fhIndex);                                        % 根据随机频点序列索引生成跳频频点（收发频点保持一致才可以解跳）
-        txFHmodulatedMat = FHmodulator(samp , msgModMatrix , txFHtable , fs);	% 跳频后的信号（包括粗同步与精同步）
+        txFHmodulatedMat = FHmodulator(samp , msgModMatrix , txFHtable , fs);	% 跳频后的信号
         
         % 信道
-%         snr = 10;
         txFHmodulated = reshape(txFHmodulatedMat' , 1 , numel(txFHmodulatedMat));       % 将矩阵形式的信号转化为实际的1维信号
         rcvNoisy = awgn(txFHmodulated , snr(ii));                                       % 添加噪声
         rcvNoisyMat = reshape(rcvNoisy , numel(txFHmodulatedMat) / HOP_NUM , HOP_NUM);  % 为了便于后面的解跳/解跳操作, 将1维信号还原为矩阵形式
@@ -71,13 +73,27 @@ for ii = 1 : length(snr)
         errBitNum = sum(orignalBit~=dmdBit);
         sumErrBit = sumErrBit + errBitNum;
         
-%         [ii jj]
+        % 计算误包率
+        orignalPacket = orignalBit(SYNC_BIT_NUM+1 : end);
+        dmdPacket = dmdBit(SYNC_BIT_NUM+1 : end);        
+        orignalPacketMat = reshape(orignalPacket , MSG_BIT_NUM/PACKET_NUM , PACKET_NUM);    % bit序列转换成包，每一列一包
+        dmdPacketMat = reshape(dmdPacket , MSG_BIT_NUM/PACKET_NUM , PACKET_NUM);            % bit序列转换成包，每一列一包
+        % 统计误包(比较一包里面的bit是否与发送端向相同，不同加1，相同加0)
+        sumErrPacket = ...
+            (sum(orignalPacketMat(:, 1) ~= dmdPacketMat(:, 1))>0)+...
+            (sum(orignalPacketMat(:, 2) ~= dmdPacketMat(:, 2))>0)+...
+            (sum(orignalPacketMat(:, 3) ~= dmdPacketMat(:, 3))>0)+sumErrPacket;
+        
+        [ii jj]
     end 
     % 计算误bit率
     ber(ii) = sumErrBit / (frameNum*TX_BIT_NUM);
+    berPacket(ii) = sumErrPacket/(frameNum*PACKET_NUM);
 end
 %% 误bit率曲线
 semilogy(snr  , ber); xlabel('SNR/dB')  ; ylabel('误码率'); grid on ;title(['总传输帧数: ' , num2str(frameNum)]);
-
+%% 误包率曲线
+figure(2)
+semilogy(snr  , berPacket); xlabel('SNR/dB')  ; ylabel('误包率'); grid on ;title(['总传输包数: ' , num2str(frameNum*PACKET_NUM)]);
 
 
