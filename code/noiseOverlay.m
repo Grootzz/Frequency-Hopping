@@ -28,4 +28,3 @@ pscaledSignal = pscale * filtSignal;                                % 按功率比例
 signalNoisy = pscaledSignal + noise;
 
 end
-
